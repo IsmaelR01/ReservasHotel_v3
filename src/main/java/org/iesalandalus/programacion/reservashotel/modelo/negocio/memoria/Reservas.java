@@ -1,6 +1,7 @@
 package org.iesalandalus.programacion.reservashotel.modelo.negocio.memoria;
 
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.IReservas;
 
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Reservas {
+public class Reservas implements IReservas {
     private ArrayList<Reserva> coleccionReservas = new ArrayList<>();
 
     public Reservas() {
@@ -16,10 +17,6 @@ public class Reservas {
     }
 
     public ArrayList<Reserva> get() {
-        return copiaProfundaReservas();
-    }
-
-    private ArrayList<Reserva> copiaProfundaReservas() {
         ArrayList<Reserva> copiaReservas = new ArrayList<>();
         Iterator<Reserva> copiaReservaIterador = coleccionReservas.iterator();
         while(copiaReservaIterador.hasNext()) {
@@ -28,6 +25,7 @@ public class Reservas {
         }
         return copiaReservas;
     }
+
 
     public int getTamano() {
         return coleccionReservas.size();
@@ -51,7 +49,7 @@ public class Reservas {
             Iterator<Reserva> iteradorReserva = coleccionReservas.iterator();
             while(iteradorReserva.hasNext()) {
                 if(reserva.equals(iteradorReserva.next())) {
-                    return new Reserva(reserva);
+                    return reserva;
                 }
             }
         }
@@ -73,7 +71,7 @@ public class Reservas {
 
     public ArrayList<Reserva> getReservas(Huesped huesped) {
         if(huesped == null) {
-            throw  new NullPointerException("ERROR: No se pueden buscar reservas de un huesped nulo.");
+            throw  new NullPointerException("ERROR: No se pueden buscar reservas de un huésped nulo.");
         }
         ArrayList<Reserva> listarReservasPorHuesped = new ArrayList<>();
         Iterator<Reserva> listarReservasHuespedIterador = get().iterator();
@@ -96,31 +94,43 @@ public class Reservas {
 
     public ArrayList<Reserva> getReservas(TipoHabitacion tipoHabitacion) {
         if(tipoHabitacion == null) {
-            throw new NullPointerException("ERROR: No se pueden buscar reservas de un tipo de habitaciÃ³n nula.");
+            throw new NullPointerException("ERROR: No se pueden buscar reservas de un tipo de habitación nula.");
         }
 
         ArrayList<Reserva> listarReservasPorTipoHabitacion = new ArrayList<>();
         Iterator<Reserva> listarReservasTipoHabitacionIterador = get().iterator();
         while(listarReservasTipoHabitacionIterador.hasNext()) {
             Reserva reserva = listarReservasTipoHabitacionIterador.next();
-            if (reserva.getHabitacion().getTipoHabitacion().equals(tipoHabitacion)) {
-                listarReservasPorTipoHabitacion.add(reserva);
-            }
-        }
-        /*
-        for(int i = 0; i< get().size(); i++) {
-            if(coleccionReservas.get(i).getHabitacion().getTipoHabitacion().equals(tipoHabitacion)) {
-                listarPorTipoHabitacion.add(coleccionReservas.get(i));
-            }
-        }
+            switch (tipoHabitacion) {
+                case SIMPLE:
+                    if(reserva.getHabitacion() instanceof Simple) {
+                        listarReservasPorTipoHabitacion.add(new Reserva(reserva));
+                    }
+                    break;
+                case DOBLE:
+                    if(reserva.getHabitacion() instanceof Doble) {
+                        listarReservasPorTipoHabitacion.add(new Reserva(reserva));
+                    }
+                    break;
+                case TRIPLE:
+                    if(reserva.getHabitacion() instanceof Triple) {
+                        listarReservasPorTipoHabitacion.add(new Reserva(reserva));
+                    }
+                    break;
+                case SUITE:
+                    if(reserva.getHabitacion() instanceof Suite) {
+                        listarReservasPorTipoHabitacion.add(new Reserva(reserva));
+                    }
 
-         */
+            }
+
+        }
         return listarReservasPorTipoHabitacion;
     }
 
     public ArrayList<Reserva> getReservasFuturas(Habitacion habitacion) {
         if(habitacion == null) {
-            throw new NullPointerException("ERROR: No se pueden buscar reservas de una habitaciÃ³n nula.");
+            throw new NullPointerException("ERROR: No se pueden buscar reservas de una habitación nula.");
         }
 
         ArrayList<Reserva> reservasFuturas = new ArrayList<>();

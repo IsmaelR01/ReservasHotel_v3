@@ -56,20 +56,44 @@ public class Reserva {
 
     public void setHuesped(Huesped huesped) {
         if (huesped == null) {
-            throw new NullPointerException("ERROR: El huï¿½sped de una reserva no puede ser nulo.");
+            throw new NullPointerException("ERROR: El huésped de una reserva no puede ser nulo.");
         }
         this.huesped = new Huesped(huesped);
     }
 
     public Habitacion getHabitacion() {
-        return new Habitacion(habitacion);
+        if(habitacion instanceof Simple) {
+            return new Simple((Simple) habitacion);
+        }
+        if(habitacion instanceof Doble) {
+            return new Doble((Doble) habitacion);
+        }
+        if(habitacion instanceof Triple) {
+            return new Triple((Triple) habitacion);
+        }
+        if(habitacion instanceof Suite) {
+            return new Suite((Suite) habitacion);
+        }
+        return null;
     }
 
     public void setHabitacion(Habitacion habitacion) {
         if (habitacion == null) {
-            throw new NullPointerException("ERROR: La habitaciï¿½n de una reserva no puede ser nula.");
+            throw new NullPointerException("ERROR: La habitación de una reserva no puede ser nula.");
         }
-        this.habitacion = new Habitacion(habitacion);
+        if(habitacion instanceof Simple) {
+            this.habitacion = new Simple((Simple) habitacion);
+        }
+        if(habitacion instanceof Doble) {
+            this.habitacion = new Doble((Doble) habitacion);
+        }
+        if(habitacion instanceof Triple) {
+            this.habitacion = new Triple((Triple) habitacion);
+        }
+        if(habitacion instanceof Suite) {
+            this.habitacion = new Suite((Suite) habitacion);
+        }
+
     }
 
     public Regimen getRegimen() {
@@ -78,7 +102,7 @@ public class Reserva {
 
     public void setRegimen(Regimen regimen) {
         if (regimen == null) {
-            throw new NullPointerException("ERROR: El rï¿½gimen de una reserva no puede ser nulo.");
+            throw new NullPointerException("ERROR: El régimen de una reserva no puede ser nulo.");
         }
         this.regimen = regimen;
     }
@@ -92,7 +116,7 @@ public class Reserva {
             throw new NullPointerException("ERROR: La fecha de inicio de una reserva no puede ser nula.");
         }
         if(fechaInicioReserva.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("ERROR: La fecha de inicio de la reserva no puede ser anterior al dï¿½a de hoy.");
+            throw new IllegalArgumentException("ERROR: La fecha de inicio de la reserva no puede ser anterior al día de hoy.");
         }
 
 
@@ -147,7 +171,7 @@ public class Reserva {
             throw new IllegalArgumentException("ERROR: El checkout de una reserva no puede ser anterior al checkin.");
         }
         if (checkOut.isAfter(fechaFinReserva.atStartOfDay().plusHours(MAX_HORAS_POSTERIOR_CHECKOUT))) {
-            throw  new IllegalArgumentException("ERROR: El checkout de una reserva puede ser como mï¿½ximo 12 horas despuï¿½s de la fecha de fin de la reserva.");
+            throw  new IllegalArgumentException("ERROR: El checkout de una reserva puede ser como máximo 12 horas después de la fecha de fin de la reserva.");
         }
         this.checkOut = checkOut;
         setPrecio();
@@ -168,23 +192,23 @@ public class Reserva {
 
     public void setNumeroPersonas(int numeroPersonas) {
         if(numeroPersonas <= 0) {
-            throw new IllegalArgumentException("ERROR: El nï¿½mero de personas de una reserva no puede ser menor o igual a 0.");
+            throw new IllegalArgumentException("ERROR: El número de personas de una reserva no puede ser menor o igual a 0.");
         }
-        if(numeroPersonas > this.habitacion.getTipoHabitacion().getNumeroMaximoPersonas()) {
-            throw new IllegalArgumentException("ERROR: El nï¿½mero de personas de una reserva no puede superar al mï¿½ximo de personas establacidas para el tipo de habitaciï¿½n reservada.");
+        if(numeroPersonas > this.habitacion.getNumeroMaximoPersonas()) {
+            throw new IllegalArgumentException("ERROR: El número de personas de una reserva no puede superar al máximo de personas establacidas para el tipo de habitación reservada.");
         }
         /*
         if(numeroPersonas > TipoHabitacion.SUITE.getNumeroMaximoPersonas()) {
-            throw new IllegalArgumentException("ERROR: No se puede superar el mï¿½ximo de personas permitido en la habitaciï¿½n suite.");
+            throw new IllegalArgumentException("ERROR: No se puede superar el m?ximo de personas permitido en la habitaci?n suite.");
         }
         if (numeroPersonas > TipoHabitacion.DOBLE.getNumeroMaximoPersonas()) {
-            throw new IllegalArgumentException("ERROR: No se puede superar el mï¿½ximo de personas permitido en la habitaciï¿½n doble.");
+            throw new IllegalArgumentException("ERROR: No se puede superar el m?ximo de personas permitido en la habitaci?n doble.");
         }
         if(numeroPersonas > TipoHabitacion.TRIPLE.getNumeroMaximoPersonas()) {
-            throw new IllegalArgumentException("ERROR: No se puede superar el mï¿½ximo de personas permitido en la habitaciï¿½n triple.");
+            throw new IllegalArgumentException("ERROR: No se puede superar el m?ximo de personas permitido en la habitaci?n triple.");
         }
         if(numeroPersonas > TipoHabitacion.SIMPLE.getNumeroMaximoPersonas()) {
-            throw new IllegalArgumentException("ERROR: No se puede superar el mï¿½ximo de personas permitido en la habitaciï¿½n simpple.");
+            throw new IllegalArgumentException("ERROR: No se puede superar el m?ximo de personas permitido en la habitaci?n simpple.");
         }
 
          */
@@ -214,7 +238,9 @@ public class Reserva {
         if(getCheckOut()!= null) {
             cadCheckout = getCheckOut().format(DateTimeFormatter.ofPattern(FORMATO_FECHA_HORA_RESERVA));
         }
-        return String.format("Huesped: %s %s Habitaciï¿½n:%s - %s Fecha Inicio Reserva: %s Fecha Fin Reserva: %s Checkin: %s Checkout: %s Precio: %.2f Personas: %s",huesped.getNombre(),huesped.getDni(),habitacion.getIdentificador(),habitacion.getTipoHabitacion(),fechaInicioReserva.format(DateTimeFormatter.ofPattern(FORMATO_FECHA_RESERVA)),fechaFinReserva.format(DateTimeFormatter.ofPattern(FORMATO_FECHA_RESERVA)),cadCheckin,cadCheckout,precio,numeroPersonas);
+        return String.format("Huesped: %s %s Habitación:%s Fecha Inicio Reserva: %s Fecha Fin Reserva: %s Checkin: %s Checkout: %s Precio: %.2f Personas: %s",huesped.getNombre(),huesped.getDni(),habitacion.toString(),fechaInicioReserva.format(DateTimeFormatter.ofPattern(FORMATO_FECHA_RESERVA)),fechaFinReserva.format(DateTimeFormatter.ofPattern(FORMATO_FECHA_RESERVA)),cadCheckin,cadCheckout,precio,numeroPersonas);
     }
+
+
 
 }

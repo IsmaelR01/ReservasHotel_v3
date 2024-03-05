@@ -27,7 +27,7 @@ public class Modelo {
     }
 
     public void terminar() {
-        System.out.println("Â¡Â¡Â¡Has terminado, Hasta la prÃ³xima!!!");
+        System.out.println("¡¡¡Has terminado, Hasta la próxima!!!");
     }
 
     public void insertar(Huesped huesped) throws OperationNotSupportedException {

@@ -13,8 +13,8 @@ import java.util.ArrayList;
 
 public class Controlador {
 
-    private Modelo modelo;
-    private Vista vista;
+    private static Modelo modelo;
+    private static Vista vista;
     public Controlador(Modelo modelo, Vista vista) {
         if(modelo == null) {
             throw new NullPointerException("ERROR: El modelo no puede ser nulo.");
@@ -24,7 +24,7 @@ public class Controlador {
         }
         this.modelo = modelo;
         this.vista = vista;
-        this.vista.setControlador(this);
+        vista.setControlador(this);
     }
 
     public void comenzar() {
