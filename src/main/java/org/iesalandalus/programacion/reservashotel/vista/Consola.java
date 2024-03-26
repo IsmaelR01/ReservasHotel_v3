@@ -13,8 +13,7 @@ import java.util.ArrayList;
 
 import org.iesalandalus.programacion.reservashotel.modelo.Modelo.*;
 
-import static org.iesalandalus.programacion.reservashotel.modelo.Modelo.habitaciones;
-import static org.iesalandalus.programacion.reservashotel.modelo.Modelo.huespedes;
+
 
 
 public class Consola {
@@ -60,6 +59,7 @@ public class Consola {
     public static Huesped getHuespedPorDni() {
         System.out.println("Introduce el dni del huésped");
         String dni = Entrada.cadena();
+        /*
         ArrayList<Huesped> busquedaHuesped = huespedes.get(); // Obtener el array de huéspedes
         for (int i = 0; i < busquedaHuesped.size(); i++) {
             Huesped huesped = busquedaHuesped.get(i);
@@ -67,6 +67,8 @@ public class Consola {
                 return new Huesped(huesped.getNombre(), dni, huesped.getCorreo(), huesped.getTelefono(), huesped.getFechaNacimiento());
             }
         }
+
+         */
         return new Huesped("Spiderman Rodríguez Cabrera",dni,"spidermanr46@gmail.com","675679876",LocalDate.of(2001,5,23));
     }
 
@@ -103,7 +105,6 @@ public class Consola {
 
 
     public static Habitacion leerHabitacion() {
-
         System.out.println("Introduce los datos de la habitación");
         System.out.println("Planta");
         int planta = Entrada.entero();
@@ -116,7 +117,7 @@ public class Consola {
                 return new Simple(planta,puerta,precio);
 
             case DOBLE:
-                System.out.println("Introduce camas individuales 1 o 2");
+                System.out.println("Introduce camas individuales 0-2");
                 int numCamasIndividualesDoble = Entrada.entero();
                 System.out.println("Introduce camas dobles 0 o 1");
                 int numCamasDoblesDoble = Entrada.entero();
@@ -164,6 +165,8 @@ public class Consola {
             int planta = Entrada.entero();
             System.out.println("Introduce el número de puerta");
             int puerta = Entrada.entero();
+            return new Simple(planta,puerta,60);
+            /*
             String identificador = "" + planta + puerta;
         ArrayList<Habitacion> busquedaHabitacion = habitaciones.get();
         for (int i = 0; i < busquedaHabitacion.size(); i++) {
@@ -181,7 +184,8 @@ public class Consola {
                 return new Suite((Suite) habitacion);
             }
         }
-        return null;
+
+             */
     }
 
     public static TipoHabitacion leerTipoHabitacion() {

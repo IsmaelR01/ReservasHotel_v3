@@ -4,6 +4,9 @@ import org.iesalandalus.programacion.reservashotel.modelo.dominio.Habitacion;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Reserva;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.TipoHabitacion;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHabitaciones;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHuespedes;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.IReservas;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.memoria.Habitaciones;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.memoria.Huespedes;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.memoria.Reservas;
@@ -13,9 +16,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Modelo {
-    public static Huespedes huespedes;
-    public static Habitaciones habitaciones;
-    public static Reservas reservas;
+    private static IHuespedes huespedes;
+    private static IHabitaciones habitaciones;
+    private static IReservas reservas;
     public Modelo() {
 
     }

@@ -2,7 +2,7 @@ package org.iesalandalus.programacion.reservashotel.modelo.dominio;
 
 public class Doble extends Habitacion{
     private static final int NUM_MAXIMO_PERSONAS = 2;
-    static final int MIN_NUM_CAMAS_INDIVIDUALES = 1;
+    static final int MIN_NUM_CAMAS_INDIVIDUALES = 0;
     static final int MAX_NUM_CAMAS_INDIVIDUALES = 2;
     static final int MIN_NUM_CAMAS_DOBLES = 0;
     static final int MAX_NUM_CAMAS_DOBLES = 1;
@@ -46,7 +46,7 @@ public class Doble extends Habitacion{
             throw new IllegalArgumentException("ERROR: El número de camas dobles de una habitación doble no puede ser inferior a " + MIN_NUM_CAMAS_DOBLES + " ni mayor que " + MAX_NUM_CAMAS_DOBLES);
         }
         if(getNumCamasIndividuales() == 2 && getNumCamasDobles() == 1 || getNumCamasIndividuales()== 1 && getNumCamasDobles() == 0 || getNumCamasIndividuales() == 1 && getNumCamasDobles() == 1) {
-            throw new IllegalArgumentException("ERROR: La distribución de camas en una habitación doble tiene que ser 2 camas individuales y 0 doble o 1 camas individuales y 1 doble");
+            throw new IllegalArgumentException("ERROR: La distribución de camas en una habitación doble tiene que ser 2 camas individuales y 0 doble o 0 camas individuales y 1 doble");
         }
 
     }

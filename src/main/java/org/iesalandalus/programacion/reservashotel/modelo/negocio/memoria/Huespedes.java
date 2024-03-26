@@ -44,15 +44,12 @@ public class Huespedes implements IHuespedes {
         if(huesped == null) {
             throw new NullPointerException("ERROR: No se puede buscar un huésped nulo.");
         }
-        if(coleccionHuespedes.contains(huesped)) {
-            Iterator<Huesped> iteradorHuesped = coleccionHuespedes.iterator();
-            while(iteradorHuesped.hasNext()) {
-                if(huesped.equals(iteradorHuesped.next())) {
-                    return huesped;
-                }
-            }
+        int indice = coleccionHuespedes.indexOf(huesped);
+        if(indice == -1) {
+            return null;
+        }else {
+            return coleccionHuespedes.get(indice);
         }
-        return null;
     }
 
     public void borrar(Huesped huesped) throws OperationNotSupportedException {

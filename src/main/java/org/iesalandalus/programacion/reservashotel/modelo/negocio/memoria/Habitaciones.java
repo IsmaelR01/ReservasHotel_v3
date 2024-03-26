@@ -41,14 +41,27 @@ public class Habitaciones implements IHabitaciones {
         Iterator<Habitacion> listaTipoHabitacionIterador = get().iterator();
         while(listaTipoHabitacionIterador.hasNext()) {
             Habitacion habitacion = listaTipoHabitacionIterador.next();
-            if(habitacion instanceof Simple) {
-                listaTipoHabitacion.add(new Simple((Simple) habitacion));
-            } else if (habitacion instanceof Doble) {
-                listaTipoHabitacion.add(new Doble((Doble) habitacion));
-            } else if (habitacion instanceof Triple) {
-                listaTipoHabitacion.add(new Triple((Triple) habitacion));
-            } else if (habitacion instanceof Suite) {
-                listaTipoHabitacion.add(new Suite((Suite) habitacion));
+            switch (tipoHabitacion) {
+                case SIMPLE:
+                    if(habitacion instanceof Simple) {
+                        listaTipoHabitacion.add(new Simple((Simple) habitacion));
+                    }
+                    break;
+                case DOBLE:
+                    if(habitacion instanceof Doble) {
+                        listaTipoHabitacion.add(new Doble((Doble) habitacion));
+                    }
+                    break;
+                case TRIPLE:
+                    if(habitacion instanceof Triple) {
+                        listaTipoHabitacion.add(new Triple((Triple) habitacion));
+                    }
+                    break;
+                case SUITE:
+                    if(habitacion instanceof Suite) {
+                        listaTipoHabitacion.add(new Suite((Suite) habitacion));
+                    }
+
             }
 
         }
@@ -72,15 +85,12 @@ public class Habitaciones implements IHabitaciones {
         if(habitacion == null) {
             throw new NullPointerException("ERROR: No se puede buscar una habitación nula.");
         }
-        if(coleccionHabitaciones.contains(habitacion)) {
-            Iterator<Habitacion> iteradorHabitacion = coleccionHabitaciones.iterator();
-            while(iteradorHabitacion.hasNext()) {
-                if(habitacion.equals(iteradorHabitacion.next())) {
-                    return habitacion;
-                }
-            }
+        int indice = coleccionHabitaciones.indexOf(habitacion);
+        if(indice == -1) {
+            return null;
+        }else {
+            return coleccionHabitaciones.get(indice);
         }
-        return null;
     }
 
     public void borrar(Habitacion habitacion) throws OperationNotSupportedException {

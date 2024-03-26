@@ -14,9 +14,9 @@ import java.util.*;
 
 public class Vista {
     private static Controlador controlador;
-     public Vista() {
+    public Vista() {
 
-     }
+    }
 
 
     public void setControlador(Controlador controlador) {
@@ -177,7 +177,8 @@ public class Vista {
             int numPersonas = Entrada.entero();
             LocalDate fechaInicio = Consola.leerfecha("Introduce fecha inicio reserva formato (dd/MM/YYYY)");
             LocalDate fechaFin=Consola.leerfecha("Introduce fecha fin reserva formato (dd/MM/YYYY)");
-            Reserva reserva = new Reserva(Consola.getHuespedPorDni(),consultarDisponibilidad(Consola.leerTipoHabitacion(),fechaInicio,fechaFin),Consola.leerRegimen(),fechaInicio,fechaFin,numPersonas);
+            Huesped huesped = controlador.buscar(Consola.getHuespedPorDni());
+            Reserva reserva = new Reserva(huesped,consultarDisponibilidad(Consola.leerTipoHabitacion(),fechaInicio,fechaFin),Consola.leerRegimen(),fechaInicio,fechaFin,numPersonas);
             /*
             Reserva reserva = new Reserva(Consola.getHuespedPorDni(),Consola.leerHabitacionPorIdentificador(),Consola.leerRegimen(),Consola.leerfecha("Introduce fecha inicio reserva formato (dd/MM/YYYY)"),Consola.leerfecha("Introduce fecha fin reserva formato (dd/MM/YYYY)"),numPersonas);
 
@@ -204,9 +205,7 @@ public class Vista {
     }
 
     public static void listarReservas(Huesped huesped) {
-        if(huesped == null) {
-            System.out.println("El huésped no puede ser nulo.");
-        }
+
         try {
             ArrayList<Reserva> reservasHuesped = controlador.getReservas(huesped);
             if (reservasHuesped.isEmpty()) {
@@ -218,7 +217,7 @@ public class Vista {
                 int contador = 1;
                 Iterator<Reserva> reservasHuespedIterador = reservasHuesped.iterator();
                 while(reservasHuespedIterador.hasNext()) {
-                     Reserva reserva = reservasHuespedIterador.next();
+                    Reserva reserva = reservasHuespedIterador.next();
                     System.out.println(contador +".- " + reserva.toString());
                     contador++;
                 }
@@ -229,30 +228,30 @@ public class Vista {
     }
 
     public void mostrarReservasTipoHabitacion() {
-         try {
-             listarReservas(Consola.leerTipoHabitacion());
-         }catch (NullPointerException | IllegalArgumentException | DateTimeParseException e) {
-             System.out.println("-" + e.getMessage());
-         }
+        try {
+            listarReservas(Consola.leerTipoHabitacion());
+        }catch (NullPointerException | IllegalArgumentException | DateTimeParseException e) {
+            System.out.println("-" + e.getMessage());
+        }
 
     }
 
     public void comprobarDisponibilidad() {
-         try {
-             TipoHabitacion tipoHabitacion = Consola.leerTipoHabitacion();
-             LocalDate fechaInicio = Consola.leerfecha("Introduce fecha inicio reserva formato (dd/MM/YYYY)");
-             LocalDate fechaFin = Consola.leerfecha("Introduce fecha fin reserva formato (dd/MM/YYYY)");
+        try {
+            TipoHabitacion tipoHabitacion = Consola.leerTipoHabitacion();
+            LocalDate fechaInicio = Consola.leerfecha("Introduce fecha inicio reserva formato (dd/MM/YYYY)");
+            LocalDate fechaFin = Consola.leerfecha("Introduce fecha fin reserva formato (dd/MM/YYYY)");
 
-             Habitacion habitacion = consultarDisponibilidad(tipoHabitacion,fechaInicio,fechaFin);
+            Habitacion habitacion = consultarDisponibilidad(tipoHabitacion,fechaInicio,fechaFin);
 
-             if(habitacion!= null) {
-                 System.out.println("Se puede insertar la reserva");
-             }else {
-                 System.out.println("La habitación no está disponible.");
-             }
-         }catch (NullPointerException | IllegalArgumentException | DateTimeParseException e) {
-             System.out.println("-" + e.getMessage());
-         }
+            if(habitacion!= null) {
+                System.out.println("Se puede insertar la reserva");
+            }else {
+                System.out.println("La habitación no está disponible.");
+            }
+        }catch (NullPointerException | IllegalArgumentException | DateTimeParseException e) {
+            System.out.println("-" + e.getMessage());
+        }
 
 
     }
@@ -317,7 +316,6 @@ public class Vista {
     public static void anularReserva() {
         try {
             Huesped huesped = Consola.getHuespedPorDni();
-
             ArrayList<Reserva> reservasAnulables = getReservasAnulables(controlador.getReservas(huesped));
             if (reservasAnulables.isEmpty()) {
                 System.out.println("El huésped no tiene reservas anulables.");
@@ -397,7 +395,7 @@ public class Vista {
         if (habitacionesTipoSolicitado==null)
             return habitacionDisponible;
 
-        for (int i=0; i<habitacionesTipoSolicitado.size() || !tipoHabitacionEncontrada; i++)
+        for (int i=0; i<habitacionesTipoSolicitado.size() && !tipoHabitacionEncontrada; i++)
         {
 
             if (habitacionesTipoSolicitado.get(i)!=null)

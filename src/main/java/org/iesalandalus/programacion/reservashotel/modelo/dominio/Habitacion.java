@@ -47,6 +47,9 @@ public abstract class Habitacion {
         if(identificador == null) {
             throw new NullPointerException("ERROR: El identificador no puede ser nulo.");
         }
+        if(identificador.isBlank()) {
+            throw new IllegalArgumentException("ERROR: El identifiacodr no puede ser vacío.");
+        }
         this.identificador = identificador;
     }
     public int getPlanta() {
@@ -81,12 +84,11 @@ public abstract class Habitacion {
     }
 
 
+
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Habitacion that = (Habitacion) o;
-        return Objects.equals(identificador, that.identificador);
+    public boolean equals(Object obj) {
+        Habitacion habitacion = (Habitacion) obj;
+        return habitacion.getIdentificador().equals(this.identificador);
     }
 
     @Override
